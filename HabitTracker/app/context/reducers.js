@@ -11,7 +11,13 @@ const habitReducer = (state = initialState, action) => {
         ...state,
         habits: [
           ...state.habits,
-          { id: Date.now(), ...action.payload, completed: false },
+          {
+            id: Date.now(),
+            title: action.payload.title,
+            frequency: action.payload.frequency,
+            days: action.payload.days,
+            completed: false,
+          },
         ],
       };
     case DELETE_HABIT:

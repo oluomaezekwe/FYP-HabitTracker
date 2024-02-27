@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
 import {
+  Alert,
   Pressable,
   Text,
   TextInput,
@@ -7,30 +9,60 @@ import {
   View,
 } from "react-native";
 
-import { connect } from "react-redux";
 import { addHabit } from "../context/actions";
+import { useNavigation } from "@react-navigation/native";
 
 function CreateHabitScreen() {
-  const [title, setTitle] = useState("");
-  const [frequency, setFrequency] = useState("daily");
-  const [selectedDays, setDays] = useState([]);
+  const nav = useNavigation();
+  const dispatch = useDispatch();
 
-  const days = ["M", "T", "W", "T", "F", "S", "S"];
+  const [title, setTitle] = useState("");
+  const [frequency, setFrequency] = useState("Daily");
+  const [days, setDays] = useState([]);
 
   const handleDayToggle = (day) => {
-    if (selectedDays.includes(day)) {
-      setDays(selectedDays.filter((d) => d !== day));
+    if (days.includes(day)) {
+      setDays(days.filter((d) => d !== day));
     } else {
-      setDays([...selectedDays, day]);
+      setDays([...days, day]);
     }
   };
 
   const handleAddHabit = () => {
     if (title.trim() !== "") {
-      addHabit(title, frequency, selectedDays);
-      setText("");
+      let selectedDays = days;
+
+      // Check if all days are selected
+      const allDaysSelected = [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun",
+      ].every((day) => days.includes(day));
+
+      if (allDaysSelected) {
+        setFrequency("Daily");
+      } else if (frequency === "Daily") {
+        selectedDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      }
+
+      if (selectedDays.length === 0) {
+        Alert.alert(
+          "Failed to create habit",
+          "Please enter the days you wish to track"
+        );
+        return;
+      }
+
+      dispatch(addHabit(title, frequency, selectedDays));
+      setTitle("");
       setFrequency("Daily");
       setDays([]);
+
+      nav.navigate("Habit Overview");
     }
   };
 
@@ -65,9 +97,9 @@ function CreateHabitScreen() {
         }}
       >
         <Pressable
-          onPress={() => setFrequency("daily")}
+          onPress={() => setFrequency("Daily")}
           style={{
-            backgroundColor: frequency == "daily" ? "lightblue" : "#E0E0E0",
+            backgroundColor: frequency == "Daily" ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -76,9 +108,9 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>Daily</Text>
         </Pressable>
         <Pressable
-          onPress={() => setFrequency("weekly")}
+          onPress={() => setFrequency("Weekly")}
           style={{
-            backgroundColor: frequency == "weekly" ? "lightblue" : "#E0E0E0",
+            backgroundColor: frequency == "Weekly" ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -105,9 +137,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Mon")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Mon")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Mon") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -119,9 +149,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Tue")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Tue")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Tue") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -133,9 +161,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Wed")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Wed")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Wed") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -147,9 +173,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Thu")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Thu")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Thu") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -161,9 +185,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Fri")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Fri")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Fri") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -175,9 +197,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Sat")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Sat")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Sat") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -189,9 +209,7 @@ function CreateHabitScreen() {
           onPress={() => handleDayToggle("Sun")}
           style={{
             backgroundColor:
-              selectedDays && selectedDays.includes("Sun")
-                ? "lightblue"
-                : "#E0E0E0",
+              days && days.includes("Sun") ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
