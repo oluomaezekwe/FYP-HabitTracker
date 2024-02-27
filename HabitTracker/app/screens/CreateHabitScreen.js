@@ -7,12 +7,32 @@ import {
   View,
 } from "react-native";
 
+import { connect } from "react-redux";
+import { addHabit } from "../context/actions";
+
 function CreateHabitScreen() {
   const [title, setTitle] = useState("");
-  const [selectedRepeatMode, setRepeatMode] = useState("");
-  const [selectedDays, setDays] = useState("");
+  const [frequency, setFrequency] = useState("daily");
+  const [selectedDays, setDays] = useState([]);
 
   const days = ["M", "T", "W", "T", "F", "S", "S"];
+
+  const handleDayToggle = (day) => {
+    if (selectedDays.includes(day)) {
+      setDays(selectedDays.filter((d) => d !== day));
+    } else {
+      setDays([...selectedDays, day]);
+    }
+  };
+
+  const handleAddHabit = () => {
+    if (title.trim() !== "") {
+      addHabit(title, frequency, selectedDays);
+      setText("");
+      setFrequency("Daily");
+      setDays([]);
+    }
+  };
 
   return (
     <View style={{ marginTop: 100, padding: 15 }}>
@@ -45,10 +65,9 @@ function CreateHabitScreen() {
         }}
       >
         <Pressable
-          onPress={() => setRepeatMode("daily")}
+          onPress={() => setFrequency("daily")}
           style={{
-            backgroundColor:
-              selectedRepeatMode == "daily" ? "lightblue" : "darkgray",
+            backgroundColor: frequency == "daily" ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -57,10 +76,9 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>Daily</Text>
         </Pressable>
         <Pressable
-          onPress={() => setRepeatMode("weekly")}
+          onPress={() => setFrequency("weekly")}
           style={{
-            backgroundColor:
-              selectedRepeatMode == "weekly" ? "lightblue" : "darkgray",
+            backgroundColor: frequency == "weekly" ? "lightblue" : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -84,8 +102,12 @@ function CreateHabitScreen() {
         }}
       >
         <Pressable
+          onPress={() => handleDayToggle("Mon")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Mon")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -94,8 +116,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>M</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Tue")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Tue")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -104,8 +130,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Wed")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Wed")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -114,8 +144,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>W</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Thu")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Thu")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -124,8 +158,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Fri")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Fri")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -134,8 +172,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>F</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Sat")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Sat")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -144,8 +186,12 @@ function CreateHabitScreen() {
           <Text style={{ fontSize: 18, textAlign: "center" }}>S</Text>
         </Pressable>
         <Pressable
+          onPress={() => handleDayToggle("Sun")}
           style={{
-            backgroundColor: "#E0E0E0",
+            backgroundColor:
+              selectedDays && selectedDays.includes("Sun")
+                ? "lightblue"
+                : "#E0E0E0",
             padding: 10,
             borderRadius: 6,
             flex: 1,
@@ -157,7 +203,7 @@ function CreateHabitScreen() {
 
       {/* Save new habit */}
       <TouchableOpacity
-        onPress={() => console.log("Habit Added")}
+        onPress={handleAddHabit}
         style={{
           marginTop: 25,
           backgroundColor: "dodgerblue",
