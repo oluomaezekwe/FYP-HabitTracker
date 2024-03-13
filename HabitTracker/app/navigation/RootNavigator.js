@@ -1,36 +1,54 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 
 import InnerNavigator from "./InnerNavigator";
+import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
-const getIsSignedIn = () => {
-  // custom logic
-  return false;
-};
-
 function RootNavigator() {
-  const isSignedIn = getIsSignedIn();
+  const user = useSelector((state) => state.user.user);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Inner" component={InnerNavigator} />
-        {/* {isSignedIn ? (
-        <Stack.Screen name="Inner" component={InnerNavigator} />
-      ) : (
-        <Stack.Screen name="Login" component={LoginScreen} />
-      )} */}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  if (user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Inner" component={InnerNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  } else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Welcome">
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Welcome"
+            component={WelcomeScreen}
+          />
+          <Stack.Screen
+            options={{ presentation: "modal" }}
+            name="Login"
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            options={{ presentation: "modal" }}
+            name="Register"
+            component={RegisterScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Inner"
+            component={InnerNavigator}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
 
 export default RootNavigator;

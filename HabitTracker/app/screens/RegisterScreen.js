@@ -1,31 +1,69 @@
-import React, { useState } from "react";
-import { View, TextInput, Button, Alert } from "react-native";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../context/actions/authActions";
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { View, TextInput, Button, TouchableOpacity, Text } from "react-native";
 
 const RegisterScreen = () => {
-  const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleRegister = async () => {
-    dispatch(registerUser(username, password));
-  };
+  const nav = useNavigation();
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 20,
+      }}
+    >
       <TextInput
         placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        style={{
+          width: "95%",
+          marginTop: 20,
+          padding: 20,
+          borderRadius: 10,
+          backgroundColor: "#e0e0e0",
+        }}
+        // value={username}
+        // onChangeText={setUsername}
+      />
+      <TextInput
+        placeholder="Email"
+        style={{
+          width: "95%",
+          marginTop: 20,
+          padding: 20,
+          borderRadius: 10,
+          backgroundColor: "#e0e0e0",
+        }}
+        // value={email}
+        // onChangeText={setUsername}
       />
       <TextInput
         placeholder="Password"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        style={{
+          width: "95%",
+          marginTop: 20,
+          padding: 20,
+          borderRadius: 10,
+          backgroundColor: "#e0e0e0",
+        }}
+        // value={password}
+        // onChangeText={setPassword}
       />
-      <Button title="Register" onPress={handleRegister} />
+      <TouchableOpacity
+        style={{
+          backgroundColor: "darkgrey",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 30,
+          padding: 12,
+          borderRadius: 12,
+        }}
+        onPress={() => nav.navigate("Inner", { screen: "Home" })}
+      >
+        <Text style={{ fontSize: 18 }}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 };

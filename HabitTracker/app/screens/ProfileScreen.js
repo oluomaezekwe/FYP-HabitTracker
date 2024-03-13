@@ -27,7 +27,7 @@ function ProfileScreen() {
 
       <View style={{ paddingTop: 10 }}>
         <TouchableOpacity
-          onPress={() => nav.navigate("Login")}
+          onPress={() => nav.navigate("Welcome")}
           style={{
             backgroundColor: "dodgerblue",
             padding: 12,

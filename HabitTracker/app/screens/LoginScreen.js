@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, TextInput, Button } from "react-native";
+import { View, TextInput, Button, TouchableOpacity, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,31 +15,44 @@ function LoginScreen() {
         paddingHorizontal: 20,
       }}
     >
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
-        Welcome to Habit Tracker
-      </Text>
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>
-        Start Tracking Your Habits Today!
-      </Text>
+      <TextInput
+        placeholder="Email"
+        style={{
+          width: "95%",
+          marginTop: 20,
+          padding: 20,
+          borderRadius: 10,
+          backgroundColor: "#e0e0e0",
+        }}
+        // value={email}
+        // onChangeText={setEmail}
+      />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        style={{
+          width: "95%",
+          marginTop: 20,
+          padding: 20,
+          borderRadius: 10,
+          backgroundColor: "#e0e0e0",
+        }}
+        // value={password}
+        // onChangeText={setPassword}
+      />
       <TouchableOpacity
+        style={{
+          backgroundColor: "darkgrey",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 30,
+          padding: 12,
+          borderRadius: 12,
+        }}
         onPress={() => nav.navigate("Inner", { screen: "Home" })}
       >
-        <Text>Login In</Text>
+        <Text style={{ fontSize: 18 }}>Login</Text>
       </TouchableOpacity>
-      {/* <View>
-        <TextInput
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <Button title="Login" onPress={handleLogin} />
-      </View> */}
       <StatusBar />
     </View>
   );
