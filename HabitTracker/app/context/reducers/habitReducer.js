@@ -2,7 +2,6 @@ import { ADD_HABIT, DELETE_HABIT, TOGGLE_HABIT } from "../actions/habitActions";
 
 const initialState = {
   habits: [],
-  dates: {},
 };
 
 const habitReducer = (state = initialState, action) => {
@@ -17,7 +16,7 @@ const habitReducer = (state = initialState, action) => {
             title: action.payload.title,
             frequency: action.payload.frequency,
             days: action.payload.days,
-            completed: false,
+            completed: [],
           },
         ],
       };
@@ -28,20 +27,18 @@ const habitReducer = (state = initialState, action) => {
       };
     case TOGGLE_HABIT:
       const { id, date } = action.payload;
-      const updatedHabits = state.habits.map((habit) =>
-        habit.id === id ? { ...habit, completed: !habit.completed } : habit
-      );
-      const updatedDates = {
-        ...state.dates,
-        [date]: {
-          ...state.dates[date],
-          [id]: !state.dates[date]?.[id],
-        },
-      };
       return {
         ...state,
-        habits: updatedHabits,
-        dates: updatedDates,
+        habits: state.habits.map((habit) =>
+          habit.id === id
+            ? {
+                ...habit,
+                completed: habit.completed.includes(date)
+                  ? habit.completed.filter((d) => d !== date) // Remove date if already completed
+                  : [...habit.completed, date], // Add date if not completed
+              }
+            : habit
+        ),
       };
 
     // return {

@@ -20,9 +20,9 @@ import { deleteHabit, toggleHabit } from "../context/actions/habitActions";
 import { Ionicons, FontAwesome6 } from "@expo/vector-icons";
 
 function HabitScreen() {
-  const [currentDate, setCurrentDate] = useState("");
   const dispatch = useDispatch();
   const habits = useSelector((state) => state.habit.habits);
+  const [currentDate, setCurrentDate] = useState("");
   const [selectedHabit, setSelectedHabit] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -55,7 +55,7 @@ function HabitScreen() {
                   marginBottom: 20,
                 }}
               >
-                {habit.completed == true ? (
+                {habit.completed.includes(currentDate) ? (
                   <FontAwesome6 name="check-circle" size={24} color="black" />
                 ) : (
                   <FontAwesome6 name="circle" size={24} color="black" />
