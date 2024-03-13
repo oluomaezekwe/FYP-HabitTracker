@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
-function AuthScreen() {
+function LoginScreen() {
   const nav = useNavigation();
 
   return (
@@ -26,9 +26,23 @@ function AuthScreen() {
       >
         <Text>Login In</Text>
       </TouchableOpacity>
+      {/* <View>
+        <TextInput
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Button title="Login" onPress={handleLogin} />
+      </View> */}
       <StatusBar />
     </View>
   );
 }
 
-export default AuthScreen;
+export default LoginScreen;

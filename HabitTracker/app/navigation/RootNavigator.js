@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import InnerNavigator from "./InnerNavigator";
-import AuthScreen from "../screens/AuthScreen";
+import LoginScreen from "../screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -18,15 +18,15 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Auth"
+        initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Inner" component={InnerNavigator} />
         {/* {isSignedIn ? (
         <Stack.Screen name="Inner" component={InnerNavigator} />
       ) : (
-        <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
       )} */}
       </Stack.Navigator>
     </NavigationContainer>

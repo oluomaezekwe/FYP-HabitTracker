@@ -1,6 +1,8 @@
-import { createStore } from "redux";
-import habitReducer from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import habitReducer from "./reducers/habitReducer";
 
-const store = createStore(habitReducer);
-
-export default store;
+export default configureStore({
+  reducer: {
+    habit: habitReducer,
+  },
+});

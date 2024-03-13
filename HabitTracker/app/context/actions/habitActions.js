@@ -16,9 +16,9 @@ export const deleteHabit = (id) => {
   };
 };
 
-export const toggleHabit = (id) => {
+export const toggleHabit = (id, date) => {
   return {
     type: TOGGLE_HABIT,
-    payload: { id },
+    payload: { id, date },
   };
 };

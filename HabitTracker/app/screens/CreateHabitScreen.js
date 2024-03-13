@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Alert,
   Pressable,
@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-import { addHabit } from "../context/actions";
+import { addHabit } from "../context/actions/habitActions";
 import { useNavigation } from "@react-navigation/native";
 
 function CreateHabitScreen() {

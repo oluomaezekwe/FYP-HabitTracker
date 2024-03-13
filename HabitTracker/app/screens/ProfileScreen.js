@@ -27,13 +27,13 @@ function ProfileScreen() {
 
       <View style={{ paddingTop: 10 }}>
         <TouchableOpacity
+          onPress={() => nav.navigate("Login")}
           style={{
             backgroundColor: "dodgerblue",
             padding: 12,
             paddingHorizontal: 20,
             borderRadius: 10,
           }}
-          onPress={() => nav.navigate("Auth")}
         >
           <Text style={{ fontSize: 18, color: "white" }}>Log Out</Text>
         </TouchableOpacity>
