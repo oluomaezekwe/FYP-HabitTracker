@@ -1,9 +1,26 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/native";
-import { View, TextInput, Button, TouchableOpacity, Text } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import { auth } from "../../api/config/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterScreen = () => {
-  const nav = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    if (email && password) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    } else {
+      Alert.alert(
+        "Registration Unsuccessful",
+        "Please enter a valid email and password greater than 6 characters"
+      );
+    }
+  };
 
   return (
     <View
@@ -15,18 +32,6 @@ const RegisterScreen = () => {
       }}
     >
       <TextInput
-        placeholder="Username"
-        style={{
-          width: "95%",
-          marginTop: 20,
-          padding: 20,
-          borderRadius: 10,
-          backgroundColor: "#e0e0e0",
-        }}
-        // value={username}
-        // onChangeText={setUsername}
-      />
-      <TextInput
         placeholder="Email"
         style={{
           width: "95%",
@@ -35,8 +40,8 @@ const RegisterScreen = () => {
           borderRadius: 10,
           backgroundColor: "#e0e0e0",
         }}
-        // value={email}
-        // onChangeText={setUsername}
+        value={email}
+        onChangeText={(value) => setEmail(value)}
       />
       <TextInput
         placeholder="Password"
@@ -48,8 +53,8 @@ const RegisterScreen = () => {
           borderRadius: 10,
           backgroundColor: "#e0e0e0",
         }}
-        // value={password}
-        // onChangeText={setPassword}
+        value={password}
+        onChangeText={(value) => setPassword(value)}
       />
       <TouchableOpacity
         style={{
@@ -60,7 +65,7 @@ const RegisterScreen = () => {
           padding: 12,
           borderRadius: 12,
         }}
-        onPress={() => nav.navigate("Inner", { screen: "Home" })}
+        onPress={handleRegister}
       >
         <Text style={{ fontSize: 18 }}>Register</Text>
       </TouchableOpacity>

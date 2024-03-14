@@ -1,7 +1,8 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+
+import useAuth from "../hooks/useAuth";
 
 import InnerNavigator from "./InnerNavigator";
 import WelcomeScreen from "../screens/WelcomeScreen";
@@ -11,7 +12,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 const Stack = createStackNavigator();
 
 function RootNavigator() {
-  const user = useSelector((state) => state.user.user);
+  const user = useAuth();
 
   if (user) {
     return (
@@ -31,19 +32,20 @@ function RootNavigator() {
             component={WelcomeScreen}
           />
           <Stack.Screen
-            options={{ presentation: "modal" }}
+            options={{
+              headerTransparent: true,
+              presentation: "modal",
+            }}
             name="Login"
             component={LoginScreen}
           />
           <Stack.Screen
-            options={{ presentation: "modal" }}
+            options={{
+              headerTransparent: true,
+              presentation: "modal",
+            }}
             name="Register"
             component={RegisterScreen}
-          />
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="Inner"
-            component={InnerNavigator}
           />
         </Stack.Navigator>
       </NavigationContainer>

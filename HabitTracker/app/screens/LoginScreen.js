@@ -1,10 +1,24 @@
-import React from "react";
-import { View, TextInput, Button, TouchableOpacity, Text } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, TouchableOpacity, Text, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../api/config/firebase";
 
 function LoginScreen() {
-  const nav = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (email && password) {
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    } else {
+      Alert.alert("Failed to login", "Please enter your email and password");
+    }
+  };
 
   return (
     <View
@@ -24,8 +38,8 @@ function LoginScreen() {
           borderRadius: 10,
           backgroundColor: "#e0e0e0",
         }}
-        // value={email}
-        // onChangeText={setEmail}
+        value={email}
+        onChangeText={setEmail}
       />
       <TextInput
         placeholder="Password"
@@ -37,8 +51,8 @@ function LoginScreen() {
           borderRadius: 10,
           backgroundColor: "#e0e0e0",
         }}
-        // value={password}
-        // onChangeText={setPassword}
+        value={password}
+        onChangeText={setPassword}
       />
       <TouchableOpacity
         style={{
@@ -49,7 +63,8 @@ function LoginScreen() {
           padding: 12,
           borderRadius: 12,
         }}
-        onPress={() => nav.navigate("Inner", { screen: "Home" })}
+        // onPress={() => nav.navigate("Inner", { screen: "Home" })}
+        onPress={handleLogin}
       >
         <Text style={{ fontSize: 18 }}>Login</Text>
       </TouchableOpacity>

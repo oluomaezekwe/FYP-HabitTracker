@@ -17,7 +17,7 @@ function HomeNavigator() {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ headerBackTitle: false, headerTransparent: true }}
+        options={{ headerTransparent: true }}
       />
     </Stack.Navigator>
   );
