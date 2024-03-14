@@ -1,4 +1,5 @@
 import { ADD_HABIT, DELETE_HABIT, TOGGLE_HABIT } from "../actions/habitActions";
+import { FETCH_HABITS } from "../actions/firebaseActions";
 
 const initialState = {
   habits: [],
@@ -9,17 +10,7 @@ const habitReducer = (state = initialState, action) => {
     case ADD_HABIT:
       return {
         ...state,
-        habits: [
-          ...state.habits,
-          {
-            id: Date.now(),
-            uid: action.payload.uid,
-            title: action.payload.title,
-            frequency: action.payload.frequency,
-            days: action.payload.days,
-            completed: [],
-          },
-        ],
+        habits: [...state.habits, action.payload],
       };
     case DELETE_HABIT:
       return {
@@ -41,15 +32,11 @@ const habitReducer = (state = initialState, action) => {
             : habit
         ),
       };
-
-    // return {
-    //   ...state,
-    //   habits: state.habits.map((habit) =>
-    //     habit.id === action.payload.id
-    //       ? { ...habit, completed: !habit.completed }
-    //       : habit
-    //   ),
-    // };
+    case FETCH_HABITS:
+      return {
+        ...state,
+        habits: action.payload,
+      };
     default:
       return state;
   }

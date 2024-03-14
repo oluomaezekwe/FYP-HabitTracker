@@ -1,12 +1,9 @@
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "../../api/config/firebase";
 
 function ProfileScreen() {
-  const nav = useNavigation();
-
   const handleLogout = async () => {
     await signOut(auth);
   };
@@ -33,7 +30,6 @@ function ProfileScreen() {
 
       <View style={{ paddingTop: 10 }}>
         <TouchableOpacity
-          // onPress={() => nav.navigate("Welcome")}
           onPress={handleLogout}
           style={{
             backgroundColor: "dodgerblue",

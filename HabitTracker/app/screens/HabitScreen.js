@@ -16,32 +16,45 @@ import {
 
 import Header from "../components/HabitScreen/Header";
 import { deleteHabit, toggleHabit } from "../context/actions/habitActions";
+import { fetchHabits } from "../context/actions/firebaseActions";
 
 import { FontAwesome6 } from "@expo/vector-icons";
+import useAuth from "../hooks/useAuth";
 
 function HabitScreen() {
   const dispatch = useDispatch();
   const habits = useSelector((state) => state.habit.habits);
+  const { user } = useAuth();
+  const { uid } = useAuth();
+
   const [currentDate, setCurrentDate] = useState("");
   const [selectedHabit, setSelectedHabit] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    // Dispatch the fetchHabits action when the component mounts
+    if (user) {
+      dispatch(fetchHabits());
+    }
+
+    // Set current date
     const currentDate = new Date().toISOString().split("T")[0];
     setCurrentDate(currentDate);
-  }, []);
+  }, [dispatch]);
 
   const handleHabitPress = (habit) => {
     setSelectedHabit(habit);
     setModalVisible(true);
   };
 
+  const currentUserHabits = habits?.filter((habit) => habit.uid === uid);
+
   return (
     <>
       <ScrollView style={{ padding: 20 }}>
         <Header />
         <View style={{ padding: 20 }}>
-          {habits.map((habit) => (
+          {currentUserHabits.map((habit) => (
             <TouchableOpacity
               key={habit.id}
               onPress={() => handleHabitPress(habit)}

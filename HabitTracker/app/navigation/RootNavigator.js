@@ -12,7 +12,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 const Stack = createStackNavigator();
 
 function RootNavigator() {
-  const user = useAuth();
+  const { user } = useAuth();
 
   if (user) {
     return (
