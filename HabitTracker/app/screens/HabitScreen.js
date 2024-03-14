@@ -20,6 +20,7 @@ import { fetchHabits } from "../context/actions/firebaseActions";
 
 import { FontAwesome6 } from "@expo/vector-icons";
 import useAuth from "../hooks/useAuth";
+import calculateStreak from "../components/calculateStreak";
 
 function HabitScreen() {
   const dispatch = useDispatch();
@@ -99,6 +100,13 @@ function HabitScreen() {
           <View style={{ marginVertical: 10 }}>
             <Text style={{ fontSize: 20 }}>Habit ID: {selectedHabit?.id}</Text>
             <Text style={{ fontSize: 20 }}>User ID: {selectedHabit?.uid}</Text>
+            <Text style={{ fontSize: 20 }}>
+              Streak:{" "}
+              {selectedHabit?.completed
+                ? calculateStreak(selectedHabit.completed)
+                : 0}{" "}
+              days
+            </Text>
             <Text style={{ fontSize: 20 }}>
               Frequency: {selectedHabit?.frequency}
             </Text>
