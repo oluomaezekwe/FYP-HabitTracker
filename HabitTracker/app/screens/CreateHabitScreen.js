@@ -123,103 +123,108 @@ function CreateHabitScreen() {
       </View>
 
       {/* Select days to track */}
-      <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
-        Days To Track
-      </Text>
-
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-          marginVertical: 10,
-        }}
-      >
-        <Pressable
-          onPress={() => handleDayToggle("Mon")}
-          style={{
-            backgroundColor:
-              days && days.includes("Mon") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>M</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Tue")}
-          style={{
-            backgroundColor:
-              days && days.includes("Tue") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Wed")}
-          style={{
-            backgroundColor:
-              days && days.includes("Wed") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>W</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Thu")}
-          style={{
-            backgroundColor:
-              days && days.includes("Thu") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Fri")}
-          style={{
-            backgroundColor:
-              days && days.includes("Fri") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>F</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Sat")}
-          style={{
-            backgroundColor:
-              days && days.includes("Sat") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>S</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => handleDayToggle("Sun")}
-          style={{
-            backgroundColor:
-              days && days.includes("Sun") ? "lightblue" : "#E0E0E0",
-            padding: 10,
-            borderRadius: 6,
-            flex: 1,
-          }}
-        >
-          <Text style={{ fontSize: 18, textAlign: "center" }}>S</Text>
-        </Pressable>
-      </View>
+      {frequency === "Daily" ? (
+        <View></View>
+      ) : (
+        <View>
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 20 }}>
+            Days To Track
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              marginVertical: 10,
+            }}
+          >
+            <Pressable
+              onPress={() => handleDayToggle("Mon")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Mon") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>M</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Tue")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Tue") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Wed")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Wed") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>W</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Thu")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Thu") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>T</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Fri")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Fri") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>F</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Sat")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Sat") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>S</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => handleDayToggle("Sun")}
+              style={{
+                backgroundColor:
+                  days && days.includes("Sun") ? "lightblue" : "#E0E0E0",
+                padding: 10,
+                borderRadius: 6,
+                flex: 1,
+              }}
+            >
+              <Text style={{ fontSize: 18, textAlign: "center" }}>S</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
 
       {/* Save new habit */}
       <TouchableOpacity

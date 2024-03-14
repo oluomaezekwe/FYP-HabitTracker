@@ -1,4 +1,4 @@
-import { addDoc } from "firebase/firestore";
+import { addDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { habitsRef } from "../../../api/config/firebase";
 
 export const ADD_HABIT = "ADD_HABIT";
@@ -9,8 +9,8 @@ export const addHabit = (uid, title, frequency, days) => {
   return async (dispatch) => {
     try {
       // Add the habit to Firestore database
-      await addDoc(habitsRef, {
-        id: Date.now(),
+      await setDoc(doc(habitsRef, Date.now().toString()), {
+        id: Date.now().toString(),
         uid,
         title,
         frequency,
@@ -21,7 +21,7 @@ export const addHabit = (uid, title, frequency, days) => {
       dispatch({
         type: ADD_HABIT,
         payload: {
-          id: Date.now(),
+          id: Date.now().toString(),
           uid,
           title,
           frequency,
@@ -37,9 +37,25 @@ export const addHabit = (uid, title, frequency, days) => {
 };
 
 export const deleteHabit = (id) => {
-  return {
-    type: DELETE_HABIT,
-    payload: { id },
+  return async (dispatch) => {
+    try {
+      // Ensure id is a valid string
+      if (!id || typeof id !== "string") {
+        throw new Error("Invalid habit ID");
+      }
+
+      // Delete the habit from Firestore database
+      await deleteDoc(doc(habitsRef, id));
+
+      // Dispatch an action to delete the habit from the Redux store
+      dispatch({
+        type: DELETE_HABIT,
+        payload: { id },
+      });
+    } catch (error) {
+      // Handle errors
+      console.error("Error deleting habit from Firestore:", error.message);
+    }
   };
 };
 
