@@ -13,6 +13,7 @@ const habitReducer = (state = initialState, action) => {
           ...state.habits,
           {
             id: Date.now(),
+            uid: action.payload.uid,
             title: action.payload.title,
             frequency: action.payload.frequency,
             days: action.payload.days,

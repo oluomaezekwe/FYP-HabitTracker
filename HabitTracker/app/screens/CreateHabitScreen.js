@@ -11,11 +11,13 @@ import {
 
 import { addHabit } from "../context/actions/habitActions";
 import { useNavigation } from "@react-navigation/native";
+import useAuth from "../hooks/useAuth";
 
 function CreateHabitScreen() {
   const nav = useNavigation();
   const dispatch = useDispatch();
 
+  const user = useAuth();
   const [title, setTitle] = useState("");
   const [frequency, setFrequency] = useState("Daily");
   const [days, setDays] = useState([]);
@@ -57,7 +59,7 @@ function CreateHabitScreen() {
         return;
       }
 
-      dispatch(addHabit(title, frequency, selectedDays));
+      dispatch(addHabit(user.uid, title, frequency, selectedDays));
       setTitle("");
       setFrequency("Daily");
       setDays([]);

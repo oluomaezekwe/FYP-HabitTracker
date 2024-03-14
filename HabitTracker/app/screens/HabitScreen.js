@@ -17,7 +17,7 @@ import {
 import Header from "../components/HabitScreen/Header";
 import { deleteHabit, toggleHabit } from "../context/actions/habitActions";
 
-import { Ionicons, FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 function HabitScreen() {
   const dispatch = useDispatch();
@@ -84,31 +84,46 @@ function HabitScreen() {
       >
         <ModalContent style={{ width: "100%", height: 300 }}>
           <View style={{ marginVertical: 10 }}>
+            <Text style={{ fontSize: 20 }}>User ID: {selectedHabit?.uid}</Text>
             <Text style={{ fontSize: 20 }}>
               Frequency: {selectedHabit?.frequency}
             </Text>
             <Text style={{ fontSize: 20 }}>
               Days: {selectedHabit?.days.join(", ")}
             </Text>
-            <Pressable
-              onPress={() => {
-                dispatch(toggleHabit(selectedHabit?.id, currentDate));
-                setModalVisible(!isModalVisible);
-              }}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 12,
-                marginTop: 10,
-              }}
-            >
-              <Ionicons
-                name="checkmark-circle-outline"
-                size={28}
-                color="black"
-              />
-              <Text style={{ fontSize: 16 }}>Mark as complete</Text>
-            </Pressable>
+            {selectedHabit?.completed.includes(currentDate) ? (
+              <Pressable
+                onPress={() => {
+                  dispatch(toggleHabit(selectedHabit?.id, currentDate));
+                  setModalVisible(!isModalVisible);
+                }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                  marginTop: 10,
+                }}
+              >
+                <FontAwesome6 name="circle" size={24} color="black" />
+                <Text style={{ fontSize: 16 }}>Unmark as complete</Text>
+              </Pressable>
+            ) : (
+              <Pressable
+                onPress={() => {
+                  dispatch(toggleHabit(selectedHabit?.id, currentDate));
+                  setModalVisible(!isModalVisible);
+                }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 12,
+                  marginTop: 10,
+                }}
+              >
+                <FontAwesome6 name="check-circle" size={24} color="black" />
+                <Text style={{ fontSize: 16 }}>Mark as complete</Text>
+              </Pressable>
+            )}
             <Pressable
               onPress={() => {
                 dispatch(deleteHabit(selectedHabit?.id));
