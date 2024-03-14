@@ -106,11 +106,7 @@ function HabitScreen() {
               Days: {selectedHabit?.days.join(", ")}
             </Text>
             {selectedHabit?.completed.includes(currentDate) ? (
-              <Pressable
-                onPress={() => {
-                  dispatch(toggleHabit(selectedHabit?.id, currentDate));
-                  setModalVisible(!isModalVisible);
-                }}
+              <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -118,9 +114,9 @@ function HabitScreen() {
                   marginTop: 10,
                 }}
               >
-                <FontAwesome6 name="circle" size={24} color="black" />
-                <Text style={{ fontSize: 16 }}>Unmark as complete</Text>
-              </Pressable>
+                <FontAwesome6 name="heart" size={24} color="black" />
+                <Text style={{ fontSize: 16 }}>Habit Complete!</Text>
+              </View>
             ) : (
               <Pressable
                 onPress={() => {

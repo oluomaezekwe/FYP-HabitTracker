@@ -25,9 +25,7 @@ const habitReducer = (state = initialState, action) => {
           habit.id === id
             ? {
                 ...habit,
-                completed: habit.completed.includes(date)
-                  ? habit.completed.filter((d) => d !== date) // Remove date if already completed
-                  : [...habit.completed, date], // Add date if not completed
+                completed: [...habit.completed, date],
               }
             : habit
         ),

@@ -1,4 +1,4 @@
-import { addDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { addDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import { habitsRef } from "../../../api/config/firebase";
 
 export const ADD_HABIT = "ADD_HABIT";
@@ -60,8 +60,38 @@ export const deleteHabit = (id) => {
 };
 
 export const toggleHabit = (id, date) => {
-  return {
-    type: TOGGLE_HABIT,
-    payload: { id, date },
+  return async (dispatch) => {
+    try {
+      // Get reference to the habit document in Firestore
+      const habitDocRef = doc(habitsRef, id);
+
+      // Fetch the habit document
+      const habitDocSnapshot = await getDoc(habitDocRef);
+
+      if (habitDocSnapshot.exists()) {
+        // Get the habit data
+        const habitData = habitDocSnapshot.data();
+
+        // Toggle the completion status
+        const updatedCompleted = [...habitData.completed, date];
+
+        // Update the habit document in Firestore with the new completed array
+        await setDoc(habitDocRef, {
+          ...habitData,
+          completed: updatedCompleted,
+        });
+
+        // Dispatch an action to update the local Redux store with the toggled habit data
+        dispatch({
+          type: TOGGLE_HABIT,
+          payload: { id, date },
+        });
+      } else {
+        console.error("Habit document does not exist");
+      }
+    } catch (error) {
+      // Handle errors, if any
+      console.error("Error toggling habit in Firestore:", error);
+    }
   };
 };
