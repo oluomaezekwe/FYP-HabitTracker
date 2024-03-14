@@ -97,6 +97,7 @@ function HabitScreen() {
       >
         <ModalContent style={{ width: "100%", height: 300 }}>
           <View style={{ marginVertical: 10 }}>
+            <Text style={{ fontSize: 20 }}>Habit ID: {selectedHabit?.id}</Text>
             <Text style={{ fontSize: 20 }}>User ID: {selectedHabit?.uid}</Text>
             <Text style={{ fontSize: 20 }}>
               Frequency: {selectedHabit?.frequency}

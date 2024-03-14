@@ -9,8 +9,7 @@ export const addHabit = (uid, title, frequency, days) => {
   return async (dispatch) => {
     try {
       // Add the habit to Firestore database
-      await setDoc(doc(habitsRef, Date.now().toString()), {
-        id: Date.now().toString(),
+      const habitDocRef = await addDoc(habitsRef, {
         uid,
         title,
         frequency,
@@ -18,10 +17,11 @@ export const addHabit = (uid, title, frequency, days) => {
         completed: [],
       });
 
+      // Dispatch an action to update the local Redux store with the added habit data
       dispatch({
         type: ADD_HABIT,
         payload: {
-          id: Date.now().toString(),
+          id: habitDocRef.id, // Use the generated ID as the habit ID
           uid,
           title,
           frequency,
