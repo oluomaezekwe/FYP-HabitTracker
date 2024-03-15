@@ -1,23 +1,35 @@
-export default function calculateStreak(completedDates) {
-  if (!completedDates || completedDates.length === 0) {
-    return 0; // Return 0 if the array is empty or undefined
-  }
+export default function calculateStreak(dates) {
+  const dateToNumber = (date) => {
+    const year = date.getFullYear().toString();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const dateNumber = year + month + day;
+    return dateNumber;
+  };
 
-  let streak = 1; // Start streak with 1 as the first completed date is always counted
-  let currentDate = new Date();
-  let lastCompletedDate = new Date(completedDates[completedDates.length - 1]);
+  // Get today's date as a number
+  let currentDateNumber = dateToNumber(new Date());
 
-  while (currentDate.toDateString() !== lastCompletedDate.toDateString()) {
-    const prevDate = new Date(currentDate);
-    prevDate.setDate(prevDate.getDate() - 1);
+  // Initialize streak
+  let streak = 0;
 
-    if (completedDates.includes(prevDate.toISOString().split("T")[0])) {
+  // Loop through the dates array
+  for (let i = dates?.length - 1; i >= 0; i--) {
+    const compareDateNumber = dateToNumber(new Date(dates[i]));
+
+    // Check if the difference between the current date and the date from the array is 1
+    // The second condition is added in the case that the current date is in the array
+    if (
+      currentDateNumber - compareDateNumber === 1 ||
+      currentDateNumber - compareDateNumber === 0
+    ) {
       streak++;
     } else {
+      // Break the loop if the streak is interrupted
       break;
     }
 
-    currentDate = prevDate;
+    currentDateNumber = compareDateNumber;
   }
 
   return streak;

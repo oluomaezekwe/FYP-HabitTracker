@@ -109,9 +109,15 @@ function HabitScreen() {
             {/* Display habit streak */}
             <View style={styles.habitDetailsView}>
               <FontAwesome6 name="fire-flame-curved" size={25} color="black" />
-              <Text style={{ fontSize: 16 }}>
-                Streak: {calculateStreak(selectedHabit?.completed)} days
-              </Text>
+              {calculateStreak(selectedHabit?.completed) == 1 ? (
+                <Text style={{ fontSize: 16 }}>
+                  Streak: {calculateStreak(selectedHabit?.completed)} day
+                </Text>
+              ) : (
+                <Text style={{ fontSize: 16 }}>
+                  Streak: {calculateStreak(selectedHabit?.completed)} days
+                </Text>
+              )}
             </View>
 
             {/* Display habit completion */}
