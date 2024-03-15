@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
   KeyboardAvoidingView,
+  StyleSheet,
 } from "react-native";
 import { auth } from "../../api/config/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -35,63 +36,29 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 20,
-      }}
-    >
+    <View style={styles.container}>
       <KeyboardAvoidingView behavior="padding">
         <TextInput
           placeholder="Email"
-          style={{
-            width: 250,
-            marginTop: 20,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#e0e0e0",
-          }}
+          style={styles.textInput}
           value={email}
           onChangeText={(value) => setEmail(value)}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry={true}
-          style={{
-            width: 250,
-            marginTop: 20,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#e0e0e0",
-          }}
+          style={styles.textInput}
           value={password}
           onChangeText={(value) => setPassword(value)}
         />
         {loading ? (
           <ActivityIndicator
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 30,
-              padding: 12,
-            }}
+            style={styles.activityIndicator}
             size="large"
             color="darkgrey"
           />
         ) : (
-          <TouchableOpacity
-            style={{
-              backgroundColor: "darkgrey",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 30,
-              padding: 12,
-              borderRadius: 12,
-            }}
-            onPress={handleRegister}
-          >
+          <TouchableOpacity style={styles.touchable} onPress={handleRegister}>
             <Text style={{ fontSize: 18 }}>Register</Text>
           </TouchableOpacity>
         )}
@@ -99,5 +66,35 @@ const RegisterScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  textInput: {
+    width: 250,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#e0e0e0",
+  },
+  activityIndicator: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    padding: 12,
+  },
+  touchable: {
+    backgroundColor: "darkgrey",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    padding: 12,
+    borderRadius: 12,
+  },
+});
 
 export default RegisterScreen;

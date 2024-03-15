@@ -22,7 +22,6 @@ function Header() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: 7,
           marginHorizontal: 5,
         }}
       >

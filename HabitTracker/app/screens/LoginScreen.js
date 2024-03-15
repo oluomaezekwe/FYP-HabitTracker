@@ -7,6 +7,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../api/config/firebase";
@@ -32,63 +33,29 @@ function LoginScreen() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 20,
-      }}
-    >
+    <View style={styles.container}>
       <KeyboardAvoidingView behavior="padding">
         <TextInput
           placeholder="Email"
-          style={{
-            width: 250,
-            marginTop: 20,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#e0e0e0",
-          }}
+          style={styles.textInput}
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
           secureTextEntry={true}
-          style={{
-            width: 250,
-            marginTop: 20,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#e0e0e0",
-          }}
+          style={styles.textInput}
           value={password}
           onChangeText={setPassword}
         />
         {loading ? (
           <ActivityIndicator
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 30,
-              padding: 12,
-            }}
+            style={styles.activityIndicator}
             size="large"
             color="darkgrey"
           />
         ) : (
-          <TouchableOpacity
-            style={{
-              backgroundColor: "darkgrey",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 30,
-              padding: 12,
-              borderRadius: 12,
-            }}
-            onPress={handleLogin}
-          >
+          <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
             <Text style={{ fontSize: 18 }}>Login</Text>
           </TouchableOpacity>
         )}
@@ -96,5 +63,35 @@ function LoginScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  textInput: {
+    width: 250,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#e0e0e0",
+  },
+  activityIndicator: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    padding: 12,
+  },
+  touchable: {
+    backgroundColor: "darkgrey",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    padding: 12,
+    borderRadius: 12,
+  },
+});
 
 export default LoginScreen;

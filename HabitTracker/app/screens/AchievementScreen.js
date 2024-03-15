@@ -1,21 +1,24 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function AchievementScreen() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: 20,
-      }}
-    >
-      <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
-        Achievement Page
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Achievement Page</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 60,
+    paddingHorizontal: 20,
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+});
 
 export default AchievementScreen;

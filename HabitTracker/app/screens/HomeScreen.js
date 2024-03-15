@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Header from "../components/HomeScreen/Header";
 import Habits from "../components/HomeScreen/Habits";
@@ -8,43 +8,33 @@ import Tips from "../components/HomeScreen/Tips";
 
 function HomeScreen() {
   return (
-    <SafeAreaView>
-      <View style={{ padding: 20 }}>
-        <Header />
-      </View>
-      <View
-        style={{
-          fontSize: 18,
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 50,
-          marginBottom: 10,
-        }}
-      >
+    <View style={styles.container}>
+      <Header />
+      <View style={styles.screenCard}>
         <Habits />
       </View>
-      <View
-        style={{
-          fontSize: 18,
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 50,
-          marginBottom: 10,
-        }}
-      >
+      <View style={styles.screenCard}>
         <Achievements />
       </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 50,
-        }}
-      >
+      <View style={styles.screenCard}>
         <Tips />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 60,
+    paddingHorizontal: 20,
+  },
+  screenCard: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 50,
+    marginBottom: 10,
+  },
+});
 
 export default HomeScreen;

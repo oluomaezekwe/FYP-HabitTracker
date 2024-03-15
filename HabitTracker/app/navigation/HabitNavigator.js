@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 function HabitNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen
         name="Habit Overview"
         component={HabitScreen}
