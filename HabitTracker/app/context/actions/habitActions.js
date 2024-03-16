@@ -1,5 +1,12 @@
-import { addDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
-import { habitsRef } from "../../../api/config/firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+import { database } from "../../../api/config/firebase";
 
 export const ADD_HABIT = "ADD_HABIT";
 export const DELETE_HABIT = "DELETE_HABIT";
@@ -7,9 +14,11 @@ export const TOGGLE_HABIT = "TOGGLE_HABIT";
 
 export const addHabit = (uid, title, frequency, days) => {
   return async (dispatch) => {
+    const userDocRef = collection(database, `userData/${uid}/habits`);
     try {
       // Add the habit to Firestore database
-      const habitDocRef = await addDoc(habitsRef, {
+
+      const habitDocRef = await addDoc(userDocRef, {
         uid,
         title,
         frequency,
@@ -21,7 +30,7 @@ export const addHabit = (uid, title, frequency, days) => {
       dispatch({
         type: ADD_HABIT,
         payload: {
-          id: habitDocRef.id, // Use the generated ID as the habit ID
+          id: habitDocRef.id, // Use the Firestore generated ID as the habit ID
           uid,
           title,
           frequency,
@@ -30,14 +39,17 @@ export const addHabit = (uid, title, frequency, days) => {
         },
       });
     } catch (error) {
-      // Handle errors, if any
-      console.error("Error adding habit to Firestore:", error);
+      console.error(
+        "Error adding habit to user collection in Firestore:",
+        error
+      );
     }
   };
 };
 
-export const deleteHabit = (id) => {
+export const deleteHabit = (id, uid) => {
   return async (dispatch) => {
+    const userDocRef = collection(database, `userData/${uid}/habits`);
     try {
       // Ensure id is a valid string
       if (!id || typeof id !== "string") {
@@ -45,7 +57,8 @@ export const deleteHabit = (id) => {
       }
 
       // Delete the habit from Firestore database
-      await deleteDoc(doc(habitsRef, id));
+
+      await deleteDoc(doc(userDocRef, id));
 
       // Dispatch an action to delete the habit from the Redux store
       dispatch({
@@ -53,17 +66,17 @@ export const deleteHabit = (id) => {
         payload: { id },
       });
     } catch (error) {
-      // Handle errors
       console.error("Error deleting habit from Firestore:", error.message);
     }
   };
 };
 
-export const toggleHabit = (id, date) => {
+export const toggleHabit = (id, uid, date) => {
   return async (dispatch) => {
+    const userDocRef = collection(database, `userData/${uid}/habits`);
     try {
+      const habitDocRef = doc(userDocRef, id);
       // Get reference to the habit document in Firestore
-      const habitDocRef = doc(habitsRef, id);
 
       // Fetch the habit document
       const habitDocSnapshot = await getDoc(habitDocRef);
@@ -90,7 +103,6 @@ export const toggleHabit = (id, date) => {
         console.error("Habit document does not exist");
       }
     } catch (error) {
-      // Handle errors, if any
       console.error("Error toggling habit in Firestore:", error);
     }
   };

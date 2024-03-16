@@ -61,6 +61,9 @@ function CreateHabitScreen() {
       }
 
       dispatch(addHabit(user.uid, title, frequency, selectedDays));
+      // dispatch(
+      //   addHabittoUserCollection(user.uid, title, frequency, selectedDays)
+      // );
       setTitle("");
       setFrequency("Daily");
       setDays([]);

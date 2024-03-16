@@ -22,6 +22,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const database = getFirestore(app);
 
-export const habitsRef = collection(database, "habits");
+export const pointsRef = collection(database, "points");
 
 export default app;

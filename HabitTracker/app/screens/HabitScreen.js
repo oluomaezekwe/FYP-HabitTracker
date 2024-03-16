@@ -26,8 +26,8 @@ import { useFocusEffect } from "@react-navigation/native";
 
 function HabitScreen() {
   const dispatch = useDispatch();
-  const habits = useSelector((state) => state.habit.habits);
   const { uid } = useAuth();
+  const habits = useSelector((state) => state.habit.habits);
 
   const [currentDate, setCurrentDate] = useState("");
   const [selectedHabit, setSelectedHabit] = useState(null);
@@ -42,9 +42,10 @@ function HabitScreen() {
   useFocusEffect(
     useCallback(() => {
       // Dispatch the fetchHabits action when the component mounts
-      dispatch(fetchHabits());
+      dispatch(fetchHabits(uid));
+
       console.log("User Habits:", habits);
-    }, [dispatch])
+    }, [dispatch, uid])
   );
 
   const handleHabitPress = (habit) => {
@@ -52,14 +53,12 @@ function HabitScreen() {
     setModalVisible(true);
   };
 
-  const currentUserHabits = habits?.filter((habit) => habit.uid === uid);
-
   return (
     <>
       <ScrollView style={styles.container}>
         <Header />
         <View style={{ paddingTop: 25 }}>
-          {currentUserHabits.map((habit) => (
+          {habits.map((habit) => (
             <TouchableOpacity
               key={habit.id}
               onPress={() => handleHabitPress(habit)}
@@ -129,7 +128,7 @@ function HabitScreen() {
             ) : (
               <Pressable
                 onPress={() => {
-                  dispatch(toggleHabit(selectedHabit?.id, currentDate));
+                  dispatch(toggleHabit(selectedHabit?.id, uid, currentDate));
                   setModalVisible(!isModalVisible);
                 }}
                 style={styles.habitDetailsView}
@@ -142,7 +141,7 @@ function HabitScreen() {
             {/* Display habit delete */}
             <Pressable
               onPress={() => {
-                dispatch(deleteHabit(selectedHabit?.id));
+                dispatch(deleteHabit(selectedHabit?.id, uid));
                 setModalVisible(!isModalVisible);
               }}
               style={styles.habitDetailsView}

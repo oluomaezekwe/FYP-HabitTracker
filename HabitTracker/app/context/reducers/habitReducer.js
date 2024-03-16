@@ -1,6 +1,5 @@
 import { ADD_HABIT, DELETE_HABIT, TOGGLE_HABIT } from "../actions/habitActions";
 import { FETCH_HABITS } from "../actions/firebaseActions";
-//jb
 
 const initialState = {
   habits: [],
@@ -13,6 +12,7 @@ const habitReducer = (state = initialState, action) => {
         ...state,
         habits: [...state.habits, action.payload],
       };
+
     case DELETE_HABIT:
       return {
         ...state,
