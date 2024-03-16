@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BottomModal,
@@ -16,13 +17,12 @@ import {
 } from "react-native";
 
 import Header from "../components/HabitScreen/Header";
+import calculateStreak from "../components/calculateStreak";
 import { deleteHabit, toggleHabit } from "../context/actions/habitActions";
 import { fetchHabits } from "../context/actions/firebaseActions";
+import useAuth from "../hooks/useAuth";
 
 import { FontAwesome6 } from "@expo/vector-icons";
-import useAuth from "../hooks/useAuth";
-import calculateStreak from "../components/calculateStreak";
-import { useFocusEffect } from "@react-navigation/native";
 
 function HabitScreen() {
   const dispatch = useDispatch();
@@ -34,19 +34,15 @@ function HabitScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+    // Dispatch the fetchHabits action when the component mounts
+    dispatch(fetchHabits(uid));
+
+    console.log("User Habits:", habits);
+
     // Set current date
     const currentDate = new Date().toISOString().split("T")[0];
     setCurrentDate(currentDate);
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      // Dispatch the fetchHabits action when the component mounts
-      dispatch(fetchHabits(uid));
-
-      console.log("User Habits:", habits);
-    }, [dispatch, uid])
-  );
+  }, [dispatch, uid]);
 
   const handleHabitPress = (habit) => {
     setSelectedHabit(habit);

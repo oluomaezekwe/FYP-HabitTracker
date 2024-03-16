@@ -18,7 +18,7 @@ function CreateHabitScreen() {
   const nav = useNavigation();
   const dispatch = useDispatch();
 
-  const user = useAuth();
+  const { uid } = useAuth();
   const [title, setTitle] = useState("");
   const [frequency, setFrequency] = useState("Daily");
   const [days, setDays] = useState([]);
@@ -60,10 +60,7 @@ function CreateHabitScreen() {
         return;
       }
 
-      dispatch(addHabit(user.uid, title, frequency, selectedDays));
-      // dispatch(
-      //   addHabittoUserCollection(user.uid, title, frequency, selectedDays)
-      // );
+      dispatch(addHabit(uid, title, frequency, selectedDays));
       setTitle("");
       setFrequency("Daily");
       setDays([]);

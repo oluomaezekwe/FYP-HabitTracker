@@ -12,7 +12,6 @@ const habitReducer = (state = initialState, action) => {
         ...state,
         habits: [...state.habits, action.payload],
       };
-
     case DELETE_HABIT:
       return {
         ...state,

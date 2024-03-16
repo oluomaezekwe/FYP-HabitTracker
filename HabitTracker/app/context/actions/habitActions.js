@@ -17,7 +17,6 @@ export const addHabit = (uid, title, frequency, days) => {
     const userDocRef = collection(database, `userData/${uid}/habits`);
     try {
       // Add the habit to Firestore database
-
       const habitDocRef = await addDoc(userDocRef, {
         uid,
         title,
@@ -57,7 +56,6 @@ export const deleteHabit = (id, uid) => {
       }
 
       // Delete the habit from Firestore database
-
       await deleteDoc(doc(userDocRef, id));
 
       // Dispatch an action to delete the habit from the Redux store
