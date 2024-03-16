@@ -2,6 +2,7 @@ import { collection, getDoc, getDocs } from "firebase/firestore";
 import { database, pointsRef } from "../../../api/config/firebase";
 
 export const FETCH_HABITS = "FETCH_HABITS";
+export const FETCH_TIPS = "FETCH_TIPS";
 
 export const fetchHabits = (uid) => {
   return async (dispatch) => {
@@ -20,6 +21,26 @@ export const fetchHabits = (uid) => {
       dispatch({ type: "FETCH_HABITS", payload: habits });
     } catch (error) {
       console.error("Error fetching habits from Firestore:", error);
+    }
+  };
+};
+
+export const fetchTips = () => {
+  return async (dispatch) => {
+    const userDocRef = collection(database, "tips");
+    try {
+      // Fetch habits data from Firestore
+      const querySnapshot = await getDocs(userDocRef);
+
+      // Extract habits data from the query snapshot
+      const tips = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      console.log("Fetched tips from firebase. Tips: ", tips);
+      // Dispatch an action to update the local Redux store with the fetched habits data
+      dispatch({ type: "FETCH_TIPS", payload: tips });
+    } catch (error) {
+      console.error("Error fetching tips from Firestore:", error);
     }
   };
 };

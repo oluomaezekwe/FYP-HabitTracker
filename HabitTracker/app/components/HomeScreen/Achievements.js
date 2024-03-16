@@ -4,6 +4,7 @@ import { Dimensions, Pressable, Text, View } from "react-native";
 
 function Achievements() {
   const nav = useNavigation();
+
   return (
     <View>
       <Pressable

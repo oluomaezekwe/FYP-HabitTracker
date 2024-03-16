@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   TextInput,
   TouchableOpacity,
   Text,
   Alert,
-  KeyboardAvoidingView,
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
@@ -17,13 +16,15 @@ function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const textInputRef = useRef();
+
   const handleLogin = async () => {
     if (email && password) {
       setLoading(true);
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch (error) {
-        console.log("Error: ", error);
+        console.log("Error logging in: ", error);
       } finally {
         setLoading(false);
       }
@@ -34,32 +35,35 @@ function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior="padding">
-        <TextInput
-          placeholder="Email"
-          style={styles.textInput}
-          value={email}
-          onChangeText={setEmail}
+      <TextInput
+        placeholder="Email"
+        keyboardType="email-address"
+        style={styles.textInput}
+        value={email}
+        onChangeText={setEmail}
+        onSubmitEditing={() => textInputRef.current.focus()}
+        blurOnSubmit={false}
+      />
+      <TextInput
+        ref={textInputRef}
+        placeholder="Password"
+        secureTextEntry={true}
+        style={styles.textInput}
+        value={password}
+        onChangeText={setPassword}
+        onSubmitEditing={handleLogin}
+      />
+      {loading ? (
+        <ActivityIndicator
+          style={styles.activityIndicator}
+          size="large"
+          color="darkgrey"
         />
-        <TextInput
-          placeholder="Password"
-          secureTextEntry={true}
-          style={styles.textInput}
-          value={password}
-          onChangeText={setPassword}
-        />
-        {loading ? (
-          <ActivityIndicator
-            style={styles.activityIndicator}
-            size="large"
-            color="darkgrey"
-          />
-        ) : (
-          <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
-            <Text style={{ fontSize: 18 }}>Login</Text>
-          </TouchableOpacity>
-        )}
-      </KeyboardAvoidingView>
+      ) : (
+        <TouchableOpacity style={styles.touchable} onPress={handleLogin}>
+          <Text style={{ fontSize: 18 }}>Login</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

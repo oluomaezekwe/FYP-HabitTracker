@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   Alert,
+  Keyboard,
   Pressable,
   StyleSheet,
   Text,
@@ -76,9 +77,11 @@ function CreateHabitScreen() {
       {/* Habit name input */}
       <TextInput
         value={title}
+        autoCapitalize="sentences"
         onChangeText={(text) => setTitle(text)}
         style={styles.textInput}
         placeholder="Example: Drink Water"
+        onSubmitEditing={() => Keyboard.dismiss()}
       />
 
       {/* Select habit frequency - daily or weekly */}
