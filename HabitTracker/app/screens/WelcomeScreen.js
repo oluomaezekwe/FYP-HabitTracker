@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: "100%",
-    height: 80,
+    height: 75,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#7398b1",
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     width: "100%",
-    height: 80,
+    height: 75,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#8da85c",
