@@ -7,6 +7,8 @@ import {
   ModalContent,
 } from "react-native-modals";
 import {
+  ImageBackground,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,16 +19,22 @@ import {
 
 import Header from "../components/HabitScreen/Header";
 import calculateStreak from "../components/calculateStreak";
-import { deleteHabit, toggleHabit } from "../context/actions/habitActions";
-import { fetchHabits } from "../context/actions/firebaseActions";
+import {
+  deleteHabit,
+  fetchHabits,
+  toggleHabit,
+} from "../context/actions/habitActions";
 import useAuth from "../hooks/useAuth";
 
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, Entypo, Feather } from "@expo/vector-icons";
+import { colours } from "../components/theme";
+// import { addPoints } from "../context/actions/pointActions";
 
 function HabitScreen() {
   const dispatch = useDispatch();
   const { uid } = useAuth();
   const habits = useSelector((state) => state.habit.habits);
+  // const points = useSelector((state) => state.point.points);
 
   const [currentDate, setCurrentDate] = useState("");
   const [selectedHabit, setSelectedHabit] = useState(null);
@@ -34,7 +42,7 @@ function HabitScreen() {
 
   useEffect(() => {
     // Dispatch the fetchHabits action when the component mounts
-    dispatch(fetchHabits(uid));
+    // dispatch(fetchHabits(uid));
 
     console.log("User Habits:", habits);
 
@@ -48,28 +56,131 @@ function HabitScreen() {
     setModalVisible(true);
   };
 
+  const renderTitle = (title) => {
+    if (title.length > 18) {
+      const spaceIndex = title.indexOf(" ", 17);
+      if (spaceIndex !== -1) {
+        const firstPart = title.substring(0, spaceIndex); // Extract the first part of the title
+        const secondPart = title.substring(spaceIndex + 1); // Extract the second part of the title
+        return (
+          <>
+            {firstPart}
+            {"\n"}
+            {secondPart}
+          </>
+        );
+      }
+    }
+    return title;
+  };
+
   return (
     <>
-      <ScrollView style={styles.container}>
-        <Header />
-        <View style={{ paddingTop: 25 }}>
-          {habits.map((habit) => (
-            <TouchableOpacity
-              key={habit.id}
-              onPress={() => handleHabitPress(habit)}
-            >
-              <View style={styles.habitList}>
-                {habit.completed.includes(currentDate) ? (
-                  <FontAwesome6 name="check-circle" size={24} color="black" />
-                ) : (
-                  <FontAwesome6 name="circle" size={24} color="black" />
-                )}
-                <Text style={{ fontSize: 20 }}>{habit.title}</Text>
+      <ImageBackground
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        source={require("../../assets/appBackground4.png")}
+      >
+        <View style={styles.container}>
+          <View style={{ paddingHorizontal: 20, marginBottom: 10 }}>
+            <Header />
+          </View>
+          <View>
+            <ScrollView>
+              <View
+                style={{
+                  marginBottom: 30,
+                  paddingTop: 25,
+                  paddingHorizontal: 20,
+                  paddingBottom: 15,
+                }}
+              >
+                {habits.map((habit) => (
+                  <View
+                    key={habit.id}
+                    style={[
+                      styles.habitCard,
+                      styles.shadowAndroid,
+                      styles.shadowIOS,
+                    ]}
+                  >
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {/* Habit Title */}
+                        <View style={{ flexDirection: "row", gap: 10 }}>
+                          <Text
+                            style={{
+                              fontSize: 22,
+                              fontWeight: "bold",
+                              color: colours.text,
+                            }}
+                          >
+                            {renderTitle(habit.title)}
+                          </Text>
+                          {habit.completed.includes(currentDate) ? (
+                            <Feather
+                              name="check"
+                              size={24}
+                              color={colours.text}
+                            />
+                          ) : (
+                            <View></View>
+                          )}
+                        </View>
+                        <TouchableOpacity
+                          onPress={() => handleHabitPress(habit)}
+                        >
+                          <Entypo
+                            name="dots-three-horizontal"
+                            size={24}
+                            color={colours.text}
+                          />
+                        </TouchableOpacity>
+                      </View>
+
+                      {/* Habit Streak */}
+                      <View style={{ flexDirection: "row", gap: 10 }}>
+                        <FontAwesome6
+                          name="fire-flame-curved"
+                          size={24}
+                          color={colours.text}
+                        />
+                        {calculateStreak(habit.completed) == 1 ? (
+                          <Text style={{ fontSize: 18, color: colours.text }}>
+                            {calculateStreak(habit.completed)} day
+                          </Text>
+                        ) : (
+                          <Text style={{ fontSize: 18, color: colours.text }}>
+                            {calculateStreak(habit.completed)} days
+                          </Text>
+                        )}
+                      </View>
+
+                      {/* Habit Frequency */}
+                      <View style={{ flexDirection: "row", gap: 10 }}>
+                        <Feather name="repeat" size={24} color={colours.text} />
+                        {habit.frequency == "Daily" ? (
+                          <Text style={{ fontSize: 18, color: colours.text }}>
+                            {habit.frequency}
+                          </Text>
+                        ) : (
+                          <Text style={{ fontSize: 18, color: colours.text }}>
+                            Weekly every {habit.days.join(", ")}
+                          </Text>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                ))}
               </View>
-            </TouchableOpacity>
-          ))}
+            </ScrollView>
+          </View>
         </View>
-      </ScrollView>
+      </ImageBackground>
 
       {/* Create modal to edit and delete habits */}
       <BottomModal
@@ -88,48 +199,35 @@ function HabitScreen() {
       >
         <ModalContent style={styles.modal}>
           <View style={{ marginVertical: 10 }}>
-            <Text style={{ fontSize: 16 }}>Habit ID: {selectedHabit?.id}</Text>
-            <Text style={{ fontSize: 16 }}>User ID: {selectedHabit?.uid}</Text>
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{ fontSize: 16, color: colours.text }}>
               Days Completed: {selectedHabit?.completed.join(", ")}
             </Text>
-            <Text style={{ fontSize: 16 }}>
-              Frequency: {selectedHabit?.frequency}
-            </Text>
-            <Text style={{ fontSize: 16 }}>
-              Days: {selectedHabit?.days.join(", ")}
-            </Text>
 
-            {/* Display habit streak */}
-            <View style={styles.habitDetailsView}>
-              <FontAwesome6 name="fire-flame-curved" size={25} color="black" />
-              {calculateStreak(selectedHabit?.completed) == 1 ? (
-                <Text style={{ fontSize: 16 }}>
-                  Streak: {calculateStreak(selectedHabit?.completed)} day
-                </Text>
-              ) : (
-                <Text style={{ fontSize: 16 }}>
-                  Streak: {calculateStreak(selectedHabit?.completed)} days
-                </Text>
-              )}
-            </View>
-
-            {/* Display habit completion */}
+            {/* Display habit complete */}
             {selectedHabit?.completed.includes(currentDate) ? (
               <View style={styles.habitDetailsView}>
-                <FontAwesome6 name="heart" size={24} color="black" />
-                <Text style={{ fontSize: 16 }}>Habit Complete!</Text>
+                <FontAwesome6 name="heart" size={24} color={colours.text} />
+                <Text style={{ fontSize: 16, color: colours.text }}>
+                  Habit Complete!
+                </Text>
               </View>
             ) : (
               <Pressable
                 onPress={() => {
                   dispatch(toggleHabit(selectedHabit?.id, uid, currentDate));
+                  // dispatch(addPoints(points.id, uid, 5));
                   setModalVisible(!isModalVisible);
                 }}
                 style={styles.habitDetailsView}
               >
-                <FontAwesome6 name="check-circle" size={24} color="black" />
-                <Text style={{ fontSize: 16 }}>Mark as complete</Text>
+                <FontAwesome6
+                  name="check-circle"
+                  size={24}
+                  color={colours.text}
+                />
+                <Text style={{ fontSize: 16, color: colours.text }}>
+                  Mark as complete
+                </Text>
               </Pressable>
             )}
 
@@ -141,8 +239,8 @@ function HabitScreen() {
               }}
               style={styles.habitDetailsView}
             >
-              <FontAwesome6 name="trash-can" size={26} color="black" />
-              <Text style={{ fontSize: 16 }}>Delete</Text>
+              <FontAwesome6 name="trash-can" size={26} color={colours.text} />
+              <Text style={{ fontSize: 16, color: colours.text }}>Delete</Text>
             </Pressable>
           </View>
         </ModalContent>
@@ -151,18 +249,27 @@ function HabitScreen() {
   );
 }
 
+const screenHeight = Platform.OS == "ios" ? 60 : 40;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
-    paddingHorizontal: 20,
+    paddingTop: screenHeight,
+  },
+  habitCard: {
+    flex: 1,
+    width: 370,
+    height: 150,
+    backgroundColor: "white",
+    padding: 20,
+    // marginLeft: 20,
+    marginBottom: 15,
+    borderRadius: 30,
   },
   habitList: {
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    gap: 20,
-    marginBottom: 20,
   },
   modal: {
     width: "100%",
@@ -173,6 +280,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     marginTop: 10,
+  },
+  // android shadow
+  shadowAndroid: {
+    elevation: 10,
+    shadowColor: "#171717",
+  },
+  // ios shadow
+  shadowIOS: {
+    shadowColor: "#777779",
+    shadowOffset: { height: 1 },
+    shadowOpacity: 0.4,
+    shadowRadius: 7,
   },
 });
 
