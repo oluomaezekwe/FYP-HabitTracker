@@ -3,6 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { FontAwesome6 } from "@expo/vector-icons";
+import { colours } from "../theme";
 
 function Header() {
   const navigation = useNavigation();
@@ -17,9 +18,11 @@ function Header() {
         marginHorizontal: 5,
       }}
     >
-      <Text style={{ fontSize: 28, fontWeight: "bold" }}>Hello, User</Text>
+      <Text style={{ fontSize: 28, fontWeight: "bold", color: colours.text }}>
+        Hello, User
+      </Text>
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <FontAwesome6 name="user" size={28} color="black" />
+        <FontAwesome6 name="user" size={28} color={colours.text} />
       </TouchableOpacity>
     </View>
   );

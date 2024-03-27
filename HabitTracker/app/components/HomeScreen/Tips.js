@@ -1,14 +1,8 @@
 import React, { useEffect } from "react";
-import {
-  ActivityIndicator,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTips } from "../../context/actions/firebaseActions";
+import { fetchTips } from "../../context/actions/tipActions";
+import { colours } from "../theme";
 
 function Tips() {
   const dispatch = useDispatch();
@@ -35,7 +29,7 @@ function Tips() {
 
   if (!randomTip) {
     return (
-      <View style={styles.container}>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator
           style={styles.activityIndicator}
           size="large"
@@ -55,19 +49,22 @@ function Tips() {
             gap: 10,
           }}
         >
-          <View style={{ width: 250, paddingTop: 5, paddingLeft: 15 }}>
-            <Text style={{ fontSize: 22 }}>{randomTip.content}</Text>
+          <View style={{ width: 250, paddingTop: 5, paddingLeft: 40 }}>
+            <Text style={{ fontSize: 22, color: colours.text }}>
+              {randomTip.content}
+            </Text>
             <Text
               style={{
                 marginTop: 15,
                 fontSize: 18,
                 fontStyle: "italic",
+                color: colours.text,
               }}
             >
               {randomTip.author}
             </Text>
           </View>
-          <View style={{ width: 120 }}>
+          <View style={{ width: 150 }}>
             <Image
               style={styles.image}
               source={require("../../../assets/tipImage.png")}
@@ -80,19 +77,25 @@ function Tips() {
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
+  },
   container: {
     width: 375,
     alignItems: "flex-end",
     justifyContent: "flex-start",
   },
   image: {
-    width: 120,
-    height: 120,
+    width: 150,
+    height: 150,
   },
-  activityIndicator: {
+  loadingContainer: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 12,
+    paddingTop: 80,
+    paddingLeft: 130,
   },
 });
 
