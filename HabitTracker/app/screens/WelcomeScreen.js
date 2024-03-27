@@ -2,13 +2,12 @@ import React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   ImageBackground,
   Image,
+  TouchableHighlight,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { colours } from "../components/theme";
 
 function WelcomeScreen() {
   const nav = useNavigation();
@@ -24,20 +23,24 @@ function WelcomeScreen() {
           source={require("../../assets/welcomeImage.png")}
         />
         <Text style={{ fontSize: 42, color: "white" }}>ZenTrack</Text>
-        <Text style={{ fontSize: 26, color: "white" }}>Track your habits!</Text>
+        <Text style={{ fontSize: 22, fontStyle: "italic", color: "white" }}>
+          Master Your Habits, Master Your Zen
+        </Text>
       </View>
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => nav.navigate("Login")}
-      >
-        <Text style={{ fontSize: 24, color: "white" }}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.registerButton}
-        onPress={() => nav.navigate("Register")}
-      >
-        <Text style={{ fontSize: 24, color: "white" }}>Register</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableHighlight
+          style={styles.loginButton}
+          onPress={() => nav.navigate("Login")}
+        >
+          <Text style={{ fontSize: 24, color: "white" }}>Log In</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.registerButton}
+          onPress={() => nav.navigate("Register")}
+        >
+          <Text style={{ fontSize: 24, color: "white" }}>Register</Text>
+        </TouchableHighlight>
+      </View>
     </ImageBackground>
   );
 }
@@ -45,21 +48,25 @@ function WelcomeScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    position: "absolute",
+    top: 650,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
   loginButton: {
-    width: "100%",
-    height: 75,
+    width: "80%",
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#7398b1",
+    marginBottom: 10,
+    backgroundColor: "#8da85c",
+    opacity: 0.9,
+    borderRadius: 50,
   },
   logo: {
     width: 260,
@@ -71,18 +78,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   registerButton: {
-    width: "100%",
-    height: 75,
+    width: "80%",
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#8da85c",
-  },
-  touchable: {
-    backgroundColor: colours.button,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12,
-    borderRadius: 12,
+    backgroundColor: "#7398b1",
+    opacity: 0.9,
+    borderRadius: 50,
   },
 });
 
