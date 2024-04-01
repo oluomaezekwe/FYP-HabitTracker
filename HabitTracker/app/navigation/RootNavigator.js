@@ -25,7 +25,12 @@ function RootNavigator() {
   } else {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Navigator
+          initialRouteName="Welcome"
+          screenOptions={{
+            headerTintColor: "white",
+          }}
+        >
           <Stack.Screen
             options={{ headerShown: false }}
             name="Welcome"
@@ -34,6 +39,8 @@ function RootNavigator() {
           <Stack.Screen
             options={{
               headerTransparent: true,
+              headerTitle: "",
+              headerBackTitle: false,
               presentation: "modal",
             }}
             name="Login"
@@ -42,6 +49,8 @@ function RootNavigator() {
           <Stack.Screen
             options={{
               headerTransparent: true,
+              headerTitle: "",
+              headerBackTitle: false,
               presentation: "modal",
             }}
             name="Register"

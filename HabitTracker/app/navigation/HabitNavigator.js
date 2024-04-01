@@ -9,7 +9,12 @@ const Stack = createStackNavigator();
 
 function HabitNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Welcome">
+    <Stack.Navigator
+      initialRouteName="Welcome"
+      screenOptions={{
+        headerTintColor: "#202020",
+      }}
+    >
       <Stack.Screen
         name="Habit Overview"
         component={HabitScreen}
@@ -22,6 +27,7 @@ function HabitNavigator() {
           headerBackTitle: false,
           headerTransparent: true,
           title: "Add New Habit",
+          presentation: "modal",
         }}
       />
     </Stack.Navigator>

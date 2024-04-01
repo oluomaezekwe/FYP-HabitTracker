@@ -20,6 +20,8 @@ function InnerNavigator() {
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
+          tabBarActiveTintColor: "#638f4c",
+          tabBarInactiveTintColor: "gray",
         }}
       >
         <Tab.Screen

@@ -14,7 +14,6 @@ import {
 import { addHabit } from "../context/actions/habitActions";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
-import { setInitialPoints } from "../context/actions/pointActions";
 import { colours } from "../components/theme";
 
 function CreateHabitScreen() {
@@ -64,7 +63,6 @@ function CreateHabitScreen() {
       }
 
       dispatch(addHabit(uid, title, frequency, selectedDays));
-      dispatch(setInitialPoints(uid, 10));
       setTitle("");
       setFrequency("Daily");
       setDays([]);

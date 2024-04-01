@@ -1,5 +1,9 @@
-import { ADD_HABIT, DELETE_HABIT, TOGGLE_HABIT } from "../actions/habitActions";
-import { FETCH_HABITS } from "../actions/firebaseActions";
+import {
+  ADD_HABIT,
+  DELETE_HABIT,
+  TOGGLE_HABIT,
+  FETCH_HABITS,
+} from "../actions/habitActions";
 
 const initialState = {
   habits: [],

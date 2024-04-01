@@ -8,7 +8,11 @@ const Stack = createStackNavigator();
 
 function HomeNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: "#202020",
+      }}
+    >
       <Stack.Screen
         name="App Home"
         component={HomeScreen}
@@ -17,7 +21,11 @@ function HomeNavigator() {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ headerTransparent: true }}
+        options={{
+          headerTransparent: true,
+          headerBackTitle: false,
+          presentation: "modal",
+        }}
       />
     </Stack.Navigator>
   );
