@@ -28,13 +28,13 @@ import useAuth from "../hooks/useAuth";
 
 import { FontAwesome6, Entypo, Feather } from "@expo/vector-icons";
 import { colours } from "../components/theme";
-// import { addPoints } from "../context/actions/pointActions";
+import addStreakBadge from "../components/addStreakBadge";
 
 function HabitScreen() {
   const dispatch = useDispatch();
   const { uid } = useAuth();
   const habits = useSelector((state) => state.habit.habits);
-  // const points = useSelector((state) => state.point.points);
+  const badges = useSelector((state) => state.badge.badges);
 
   const [currentDate, setCurrentDate] = useState("");
   const [selectedHabit, setSelectedHabit] = useState(null);
@@ -42,7 +42,7 @@ function HabitScreen() {
 
   useEffect(() => {
     // Dispatch the fetchHabits action when the component mounts
-    // dispatch(fetchHabits(uid));
+    dispatch(fetchHabits(uid));
 
     console.log("User Habits:", habits);
 
@@ -50,6 +50,12 @@ function HabitScreen() {
     const currentDate = new Date().toISOString().split("T")[0];
     setCurrentDate(currentDate);
   }, [dispatch, uid]);
+
+  useEffect(() => {
+    habits.forEach((habit) => {
+      addStreakBadge(uid, calculateStreak(habit?.completed), badges, dispatch);
+    });
+  }, [uid, habits]);
 
   const handleHabitPress = (habit) => {
     setSelectedHabit(habit);
@@ -199,35 +205,35 @@ function HabitScreen() {
       >
         <ModalContent style={styles.modal}>
           <View style={{ marginVertical: 10 }}>
-            <Text style={{ fontSize: 16, color: colours.text }}>
+            {/* <Text style={{ fontSize: 16, color: colours.text }}>
               Days Completed: {selectedHabit?.completed.join(", ")}
-            </Text>
+            </Text> */}
 
             {/* Display habit complete */}
             {selectedHabit?.completed.includes(currentDate) ? (
-              <View style={styles.habitDetailsView}>
-                <FontAwesome6 name="heart" size={24} color={colours.text} />
-                <Text style={{ fontSize: 16, color: colours.text }}>
-                  Habit Complete!
-                </Text>
-              </View>
+              <View style={styles.habitDetailsView}></View>
             ) : (
               <Pressable
                 onPress={() => {
                   dispatch(toggleHabit(selectedHabit?.id, uid, currentDate));
-                  // dispatch(addPoints(points.id, uid, 5));
                   setModalVisible(!isModalVisible);
                 }}
                 style={styles.habitDetailsView}
               >
-                <FontAwesome6
-                  name="check-circle"
-                  size={24}
-                  color={colours.text}
-                />
-                <Text style={{ fontSize: 16, color: colours.text }}>
-                  Mark as complete
-                </Text>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // backgroundColor: "white",
+                    width: 300,
+                    // padding: 12,
+                    borderRadius: 20,
+                  }}
+                >
+                  <Text style={{ fontSize: 20, color: colours.text }}>
+                    Mark as complete
+                  </Text>
+                </View>
               </Pressable>
             )}
 
@@ -239,8 +245,18 @@ function HabitScreen() {
               }}
               style={styles.habitDetailsView}
             >
-              <FontAwesome6 name="trash-can" size={26} color={colours.text} />
-              <Text style={{ fontSize: 16, color: colours.text }}>Delete</Text>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // backgroundColor: "white",
+                  width: 300,
+                  paddingTop: 8,
+                  borderRadius: 20,
+                }}
+              >
+                <Text style={{ fontSize: 20, color: "red" }}>Delete Habit</Text>
+              </View>
             </Pressable>
           </View>
         </ModalContent>
@@ -272,8 +288,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   modal: {
+    alignItems: "center",
+    justifyContent: "flex-end",
     width: "100%",
-    height: 300,
+    height: 140,
   },
   habitDetailsView: {
     flexDirection: "row",
